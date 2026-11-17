@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101a14">
+<meta name="description" content="السطوري - مساعد Minecraft Bedrock للأوامر والمودات">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>السطوري | ALSTOORI</title>
+<style>
+:root{--bg:#0a100d;--panel:#121c16;--panel2:#18251d;--line:#293a2e;--green:#65e58c;--green2:#2caa5a;--text:#eef8f0;--muted:#9bb0a0;--red:#ff7373;--gold:#ffd36a;--shadow:0 16px 40px #0007}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#1b4027 0,transparent 40%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1120px;margin:auto;padding:18px 16px 42px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px 18px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#6af18e,#19753a);display:grid;place-items:center;box-shadow:0 8px 24px #2eb75c55;color:#07150b;font-size:27px;font-weight:900}
+.brand h1{font-size:22px;margin:0;letter-spacing:.3px}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:2px;margin-top:2px}
+.header-actions{display:flex;gap:8px;align-items:center}.iconbtn,.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 13px}.iconbtn{width:42px;height:42px;padding:0;font-size:18px}.btn.primary{background:linear-gradient(135deg,var(--green),#2cae5b);border:0;color:#07160b;font-weight:800}.btn.danger{color:#ff9b9b;border-color:#633b3b}.btn.small{padding:7px 10px;font-size:12px;border-radius:9px}
+.hero{background:linear-gradient(115deg,#193e27,#12251a 58%,#17271d);border:1px solid #31583b;border-radius:22px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;width:190px;height:190px;border:24px solid #7be99b12;border-radius:40px;transform:rotate(25deg);right:58%;top:-95px}
+.hero h2{font-size:clamp(20px,4vw,30px);margin:0 0 8px}.hero p{color:#c0d7c6;margin:0;max-width:560px;line-height:1.7;font-size:14px}.hero .btn{position:relative;z-index:1;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0 20px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}.stat strong{display:block;font-size:24px;color:var(--green)}.stat span{color:var(--muted);font-size:12px}
+nav{display:flex;gap:8px;overflow:auto;padding:4px 0 14px;scrollbar-width:none}nav button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 15px;border-radius:12px}nav button.active{background:#1d3a27;color:var(--green);border-color:#3d774d}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 14px}.section-head h2{font-size:19px;margin:0}.muted{color:var(--muted)}
+.searchrow{display:flex;gap:9px;margin-bottom:12px}.field{width:100%;background:#0d1711;border:1px solid var(--line);border-radius:12px;color:var(--text);padding:12px 13px;outline:none}.field:focus{border-color:var(--green2);box-shadow:0 0 0 3px #2caa5a22}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 15px}.chip{border:1px solid var(--line);background:#111b15;color:var(--muted);padding:7px 11px;border-radius:999px;font-size:12px}.chip.active{background:#24442d;color:var(--green);border-color:#3d774d}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cmd{background:linear-gradient(145deg,#15221a,#101912);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}.cmdtop{display:flex;justify-content:space-between;align-items:center;gap:8px}.cmdname{font-weight:850;color:var(--green);font-size:16px;direction:ltr;text-align:left}.tag{font-size:10px;color:#a8c5b0;background:#213529;padding:4px 8px;border-radius:99px;white-space:nowrap}.desc{font-size:13px;color:#c4d2c8;line-height:1.6;min-height:40px;margin:9px 0}.code{direction:ltr;text-align:left;background:#080f0b;border:1px solid #25382b;border-radius:9px;padding:10px;color:#b8f6c8;font-family:ui-monospace,monospace;font-size:12px;overflow:auto;white-space:nowrap}
+.cmdactions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}.cmdactions button{flex:1}
+.empty{padding:28px;text-align:center;border:1px dashed var(--line);border-radius:16px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}.panel h3{margin:0 0 12px;font-size:16px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.formrow{margin:10px 0}.formrow label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.textarea{min-height:180px;resize:vertical;line-height:1.55;direction:ltr;text-align:left;font-family:ui-monospace,monospace}
+.notice{background:#1b2d20;border:1px solid #345b3d;color:#c9e8d0;border-radius:12px;padding:12px;font-size:12px;line-height:1.7;margin:12px 0}
+.modalback{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modalback.show{display:flex}.modal{width:min(520px,100%);background:#142019;border:1px solid #3a5b42;border-radius:20px;padding:20px;box-shadow:var(--shadow);max-height:90vh;overflow:auto}.modal h2{margin:0 0 12px}.modalfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#e2ffea;color:#102116;padding:11px 16px;border-radius:12px;font-size:13px;font-weight:700;box-shadow:var(--shadow);display:none;z-index:30;max-width:90%;text-align:center}
+footer{color:#789080;text-align:center;font-size:11px;padding:24px 0 4px;line-height:1.8}
+[dir=ltr] .hero:after{right:auto;left:58%}
+@media(max-width:700px){.app{padding:12px 12px 30px}.hero{align-items:flex-start;flex-direction:column;padding:18px}.hero .btn{width:100%}.cards{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:11px}.stat strong{font-size:21px}.grid2{grid-template-columns:1fr}.brand h1{font-size:19px}.header-actions .btn{padding:9px 10px;font-size:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">✦</div><div><h1>السطوري</h1><small>ALSTOORI • BEDROCK TOOLKIT</small></div></div>
+  <div class="header-actions"><button class="iconbtn" id="langQuick" title="Language">文</button><button class="btn primary" id="launchTop">▶ <span data-i="launch">فتح Minecraft</span></button></div>
+</header>
+<section class="hero">
+  <div><h2 data-i="heroTitle">قوتك في عالم البيدروك تبدأ هنا</h2><p data-i="heroText">مكتبة أوامر قابلة للتخصيص، محرر حزم إضافات، وأدواتك كلها في مكان واحد.</p></div>
+  <button class="btn primary" id="launchHero">▶ <span data-i="launch">فتح Minecraft</span></button>
+</section>
+<div class="stats">
+  <div class="stat"><strong id="countCommands">0</strong><span data-i="statCommands">أمر في المكتبة</span></div>
+  <div class="stat"><strong id="countCustom">0</strong><span data-i="statCustom">أوامر مخصصة</span></div>
+  <div class="stat"><strong id="countFav">0</strong><span data-i="statFav">المفضلة</span></div>
+</div>
+<nav id="tabs">
+  <button class="active" data-tab="commands">⌘ <span data-i="tabCommands">الأوامر</span></button>
+  <button data-tab="favorites">★ <span data-i="tabFavorites">المفضلة</span></button>
+  <button data-tab="mods">◇ <span data-i="tabMods">محرر المودات</span></button>
+  <button data-tab="settings">⚙ <span data-i="tabSettings">الإعدادات</span></button>
+</nav>
+
+<main>
+<section id="page-commands">
+  <div class="section-head"><h2 data-i="allCommands">مكتبة أوامر Bedrock</h2><button class="btn primary small" id="addCmd">＋ <span data-i="addCommand">إضافة أمر</span></button></div>
+  <div class="searchrow"><input class="field" id="search" data-ph="search" placeholder="ابحث عن أمر أو وصف..."></div>
+  <div class="filters" id="filters"></div>
+  <div class="cards" id="commandList"></div>
+  <div class="notice"><span data-i="officialNote">القائمة مبنية على مرجع Microsoft الرسمي للأوامر. قد تختلف الأوامر والصيغ حسب إصدار اللعبة والصلاحيات والتجارب المفعّلة.</span> <a href="https://learn.microsoft.com/en-us/minecraft/creator/commands/commands?view=minecraft-bedrock-stable" target="_blank" rel="noopener" style="color:#8ef3a8" data-i="officialLink">مرجع الأوامر الرسمي ↗</a></div>
+</section>
+
+<section id="page-favorites" hidden>
+  <div class="section-head"><h2 data-i="favoritesTitle">أوامرك المفضلة</h2></div>
+  <div class="cards" id="favoriteList"></div>
+</section>
+
+<section id="page-mods" hidden>
+  <div class="section-head"><h2 data-i="modTitle">منشئ ومحرر الإضافات</h2></div>
+  <div class="notice" data-i="modNotice">أنشئ حزمة Behavior أو Resource بسيطة بصيغة mcpack. يمكنك تعديل manifest.json ثم تصدير الحزمة وفتحها باستخدام Minecraft. هذه نسخة أولية لمحرر الملفات وليست بديلاً عن محرر النماذج ثلاثية الأبعاد أو محرر الرسوم.</div>
+  <div class="panel">
+    <h3 data-i="newPack">إنشاء حزمة جديدة</h3>
+    <div class="grid2">
+      <div class="formrow"><label data-i="packName">اسم الحزمة</label><input class="field" id="packName" value="Alstoori Add-on"></div>
+      <div class="formrow"><label data-i="packType">نوع الحزمة</label><select class="field" id="packType"><option value="data">Behavior Pack</option><option value="resources">Resource Pack</option></select></div>
+    </div>
+    <div class="formrow"><label data-i="packDesc">الوصف</label><input class="field" id="packDesc" value="Created with ALSTOORI"></div>
+    <div class="formrow"><label data-i="packVersion">رقم الإصدار (مثال: 1.0.0)</label><input class="field" id="packVersion" value="1.0.0"></div>
+    <div class="cmdactions"><button class="btn primary" id="makeManifest" data-i="generateManifest">توليد manifest.json</button><button class="btn" id="downloadPack" data-i="exportMcpack">تصدير حزمة .mcpack</button></div>
+  </div>
+  <div class="panel">
+    <div class="section-head"><h3 data-i="manifestEditor">محرر manifest.json</h3><label class="btn small" for="manifestFile" data-i="importJson">استيراد JSON</label><input id="manifestFile" type="file" accept=".json,application/json" hidden></div>
+    <textarea class="field textarea" id="manifestEditor" spellcheck="false"></textarea>
+    <div class="cmdactions"><button class="btn" id="validateManifest" data-i="validateJson">فحص JSON</button><button class="btn" id="downloadJson" data-i="downloadJson">تنزيل JSON</button></div>
+    <div class="notice" data-i="packTip">بعد تنزيل ملف mcpack، افتحه من تطبيق الملفات في Android واختر Minecraft عند ظهور نافذة فتح الملف. قد تختلف خطوات الاستيراد حسب إصدار Android.</div>
+  </div>
+</section>
+
+<section id="page-settings" hidden>
+  <div class="section-head"><h2 data-i="settingsTitle">الإعدادات</h2></div>
+  <div class="panel">
+    <h3 data-i="language">لغة التطبيق</h3>
+    <select class="field" id="language"><option value="ar">العربية</option><option value="en">English</option><option value="zh">简体中文</option><option value="ja">日本語</option></select>
+  </div>
+  <div class="panel">
+    <h3 data-i="security">قفل التطبيق</h3>
+    <p class="muted" style="font-size:13px" data-i="securityText">يمكنك تغيير كلمة المرور. القفل محلي على هذا الجهاز ولا يُعد بديلاً عن حماية Android.</p>
+    <button class="btn" id="changePass" data-i="changePassword">تغيير كلمة المرور</button>
+  </div>
+  <div class="panel">
+    <h3 data-i="backup">النسخ الاحتياطي</h3>
+    <p class="muted" style="font-size:13px" data-i="backupText">احفظ أو استعد أوامرك المخصصة ومفضلاتك وإعداداتك.</p>
+    <div class="cmdactions"><button class="btn" id="exportBackup" data-i="exportBackup">تصدير نسخة احتياطية</button><label class="btn" for="backupFile" data-i="importBackup">استيراد نسخة احتياطية</label><input id="backupFile" type="file" accept=".json,application/json" hidden></div>
+  </div>
+  <div class="panel">
+    <h3 data-i="about">حول السطوري</h3>
+    <p class="muted" style="font-size:13px;line-height:1.8" data-i="aboutText">السطوري أداة مساعدة مستقلة لـ Minecraft Bedrock وليست تطبيقاً رسمياً من Mojang أو Microsoft. لا ترسل الأوامر مباشرة إلى عالم اللعبة؛ انسخ الأمر ثم الصقه داخل دردشة Minecraft.</p>
+    <button class="btn danger" id="resetApp" data-i="reset">إعادة ضبط بيانات التطبيق</button>
+  </div>
+</section>
+</main>
+<footer>ALSTOORI • Built for Minecraft Bedrock fans<br><span data-i="footerText">تُحفظ بياناتك محلياً في المتصفح على هذا الجهاز.</span></footer>
+</div>
+
+<div class="modalback" id="modalBack"><div class="modal" id="modal">
+  <h2 id="modalTitle">إضافة أمر</h2>
+  <div id="modalBody"></div>
+  <div class="modalfoot"><button class="btn" id="modalCancel" data-i="cancel">إلغاء</button><button class="btn primary" id="modalSave" data-i="save">حفظ</button></div>
+</div></div>
+<div id="toast"></div>
+
+<script>
+const COMMANDS = [
+["aimassist","players","تفعيل أو ضبط مساعدة التصويب.","/aimassist"],
+["allowlist","admin","إدارة قائمة السماح في الخادم.","/allowlist"],
+["camera","creator","تغيير منظور كاميرا لاعب أو أكثر.","/camera"],
+["camerashake","creator","إضافة اهتزاز للكاميرا أو إيقافه.","/camerashake add @s positional 1 2"],
+["changesetting","admin","تغيير إعداد في الخادم المخصص أثناء تشغيله.","/changesetting"],
+["clear","players","حذف عناصر من مخزون لاعب.","/clear @s"],
+["clearspawnpoint","players","إزالة نقطة ظهور لاعب.","/clearspawnpoint @s"],
+["clone","world","نسخ منطقة من الكتل إلى موقع آخر.","/clone 0 0 0 5 5 5 10 0 10"],
+["controlscheme","players","تعيين أو مسح نظام التحكم.","/controlscheme"],
+["damage","entities","إلحاق ضرر بكيان أو لاعب.","/damage @e[type=zombie,c=1] 5"],
+["daylock","world","قفل أو فتح دورة الليل والنهار.","/daylock true"],
+["deop","admin","إلغاء صلاحية المشغّل عن لاعب.","/deop PlayerName"],
+["dialogue","creator","فتح حوار شخصية NPC للاعب.","/dialogue"],
+["difficulty","world","تغيير مستوى صعوبة العالم.","/difficulty hard"],
+["effect","players","إضافة تأثير حالة أو إزالته.","/effect @s speed 30 1 true"],
+["enchant","players","إضافة تعويذة إلى الأداة المحددة.","/enchant @s sharpness 5"],
+["event","entities","تشغيل حدث لكيان أو مجموعة كيانات.","/event entity @e[type=pig] minecraft:become_zombie"],
+["execute","creator","تنفيذ أمر بسياق لاعب أو موقع أو شرط.","/execute as @s at @s run say مرحباً"],
+["fill","world","ملء منطقة بكتلة محددة.","/fill ~-3 ~ ~-3 ~3 ~ ~3 stone"],
+["fog","world","إضافة إعداد ضباب أو إزالته.","/fog @s push minecraft:fog_hell test"],
+["function","creator","تشغيل ملف أوامر mcfunction من حزمة سلوك.","/function my_function"],
+["gamemode","players","تغيير نمط لعب لاعب.","/gamemode creative @s"],
+["gamerule","world","تغيير قاعدة من قواعد العالم أو الاستعلام عنها.","/gamerule keepinventory true"],
+["gametest","creator","إدارة اختبارات GameTest؛ يتطلب واجهات تجريبية.","/gametest"],
+["give","players","إعطاء عناصر للاعب.","/give @s diamond 64"],
+["help","basics","عرض المساعدة وصيغ الأوامر المتاحة.","/help gamemode"],
+["hud","players","إظهار أو إخفاء عناصر واجهة اللعب.","/hud"],
+["inputpermission","players","السماح أو منع إدخال تحكم معين للاعب.","/inputpermission set @s movement disabled"],
+["kick","admin","إخراج لاعب من الخادم.","/kick PlayerName"],
+["kill","entities","إزالة لاعب أو كيان من العالم.","/kill @e[type=zombie]"],
+["list","admin","عرض اللاعبين الموجودين في الخادم.","/list"],
+["locate","world","العثور على أقرب بنية أو منطقة حيوية.","/locate structure village"],
+["loot","world","إسقاط جدول غنائم في العالم أو مخزون.","/loot"],
+["me","basics","إرسال رسالة تصف فعل اللاعب.","/me يلوّح للجميع"],
+["mobevent","entities","التحكم في أحداث ظهور أو سلوك المخلوقات.","/mobevent"],
+["music","creator","التحكم في تشغيل الموسيقى داخل اللعبة.","/music"],
+["op","admin","منح صلاحية المشغّل للاعب.","/op PlayerName"],
+["packstack","creator","عرض ترتيب حزم الموارد أو السلوك المطبقة.","/packstack"],
+["particle","creator","إنشاء مؤثر جسيمات في موقع محدد.","/particle minecraft:basic_flame_particle ~ ~1 ~"],
+["permission","admin","إعادة تحميل الصلاحيات؛ للخوادم المخصصة.","/permission"],
+["place","world","وضع بنية أو ميزة أو قاعدة ميزة.","/place"],
+["playanimation","creator","تشغيل حركة لمجموعة من الكيانات.","/playanimation @s animation.wave"],
+["playsound","creator","تشغيل صوت للاعب أو في موقع.","/playsound random.levelup @s"],
+["project","creator","أدوات مشروع وضع Editor فقط.","/project"],
+["recipe","players","فتح أو قفل وصفة تصنيع للاعب.","/recipe give @s *"],
+["reload","admin","إعادة تحميل ملفات الوظائف والسكريبت في حزم السلوك.","/reload"],
+["reloadconfig","admin","إعادة تحميل ملفات إعدادات الخادم.","/reloadconfig"],
+["reloadpacketlimitconfig","admin","إعادة تحميل إعدادات حدود الحزم.","/reloadpacketlimitconfig"],
+["replaceitem","players","استبدال عنصر في خانة من المخزون.","/replaceitem entity @s slot.weapon.mainhand 0 diamond_sword"],
+["ride","entities","جعل كيان يركب كياناً آخر أو إيقاف الركوب.","/ride @s start_riding @e[type=horse,c=1]"],
+["save","admin","التحكم في حفظ بيانات الخادم المخصص.","/save"],
+["say","basics","إرسال رسالة عامة إلى دردشة اللاعبين.","/say مرحباً بالجميع"],
+["schedule","creator","جدولة تنفيذ أمر بعد مدة أو عند تحميل منطقة.","/schedule"],
+["scoreboard","creator","إنشاء أهداف النقاط وإدارتها وعرضها.","/scoreboard objectives add kills dummy Kills"],
+["script","creator","أدوات تصحيح سكريبتات اللعبة.","/script"],
+["scriptevent","creator","إطلاق حدث يمكن للسكريبت الاستماع إليه.","/scriptevent mypack:hello test"],
+["sendshowstoreoffer","admin","فتح صفحة عرض متجر؛ للخادم المخصص.","/sendshowstoreoffer"],
+["setblock","world","تغيير كتلة في إحداثيات محددة.","/setblock ~ ~-1 ~ diamond_block"],
+["setmaxplayers","admin","تحديد الحد الأقصى للاعبين في الجلسة.","/setmaxplayers 10"],
+["setworldspawn","world","تحديد نقطة الظهور الأساسية للعالم.","/setworldspawn 0 64 0"],
+["spawnpoint","players","تحديد نقطة ظهور لاعب.","/spawnpoint @s ~ ~ ~"],
+["spreadplayers","world","توزيع الكيانات عشوائياً على مساحة.","/spreadplayers 0 0 5 20 @a"],
+["stop","admin","إيقاف الخادم المخصص.","/stop"],
+["stopsound","creator","إيقاف صوت لدى لاعب.","/stopsound @s"],
+["structure","world","حفظ بنية أو تحميلها في العالم.","/structure"],
+["summon","entities","استدعاء كيان في العالم.","/summon minecraft:iron_golem ~ ~ ~"],
+["tag","entities","إضافة أو إزالة أو عرض وسوم الكيانات.","/tag @s add warrior"],
+["teleport","players","نقل لاعب أو كيان إلى موقع أو هدف.","/tp @s 0 100 0"],
+["tell","basics","إرسال رسالة خاصة إلى لاعب.","/tell PlayerName مرحباً"],
+["tellraw","creator","إرسال رسالة دردشة بتنسيق JSON.","/tellraw @a {\"rawtext\":[{\"text\":\"Hello\"}]}"],
+["testfor","creator","عدّ الكيانات المطابقة لشروط معينة.","/testfor @e[type=creeper]"],
+["testforblock","creator","التحقق من نوع كتلة في موقع محدد.","/testforblock ~ ~-1 ~ stone"],
+["testforblocks","creator","مقارنة الكتل في منطقتين.","/testforblocks 0 0 0 5 5 5 10 0 10"],
+["tickingarea","world","إبقاء منطقة محددة نشطة.","/tickingarea add circle ~ ~ ~ 4 base"],
+["time","world","تغيير وقت العالم أو الاستعلام عنه.","/time set day"],
+["title","players","عرض عنوان أو عنوان فرعي على الشاشة.","/title @a title أهلاً"],
+["titleraw","creator","عرض عنوان باستخدام بيانات JSON.","/titleraw @a title {\"rawtext\":[{\"text\":\"Hello\"}]}"],
+["toggledownfall","world","تبديل حالة الطقس.","/toggledownfall"],
+["transfer","admin","نقل لاعب إلى خادم آخر.","/transfer"],
+["weather","world","تغيير الطقس إلى صافٍ أو ممطر أو عاصف.","/weather clear"],
+["wsserver","admin","محاولة الاتصال بخادم WebSocket.","/wsserver"],
+["xp","players","إضافة أو إزالة نقاط الخبرة.","/xp 100 @s"]
+];
+
+const I18N = {
+ar:{launch:"فتح Minecraft",heroTitle:"قوتك في عالم البيدروك تبدأ هنا",heroText:"مكتبة أوامر قابلة للتخصيص، محرر حزم إضافات، وأدواتك كلها في مكان واحد.",statCommands:"أمر في المكتبة",statCustom:"أوامر مخصصة",statFav:"المفضلة",tabCommands:"الأوامر",tabFavorites:"المفضلة",tabMods:"محرر المودات",tabSettings:"الإعدادات",allCommands:"مكتبة أوامر Bedrock",addCommand:"إضافة أمر",search:"ابحث عن أمر أو وصف...",officialNote:"القائمة مبنية على مرجع Microsoft الرسمي للأوامر. قد تختلف الأوامر والصيغ حسب إصدار اللعبة والصلاحيات والتجارب المفعّلة.",officialLink:"مرجع الأوامر الرسمي ↗",favoritesTitle:"أوامرك المفضلة",modTitle:"منشئ ومحرر الإضافات",modNotice:"أنشئ حزمة Behavior أو Resource بسيطة بصيغة mcpack. يمكنك تعديل manifest.json ثم تصدير الحزمة وفتحها باستخدام Minecraft. هذه نسخة أولية لمحرر الملفات وليست بديلاً عن محرر النماذج ثلاثية الأبعاد أو محرر الرسوم.",newPack:"إنشاء حزمة جديدة",packName:"اسم الحزمة",packType:"نوع الحزمة",packDesc:"الوصف",packVersion:"رقم الإصدار (مثال: 1.0.0)",generateManifest:"توليد manifest.json",exportMcpack:"تصدير حزمة .mcpack",manifestEditor:"محرر manifest.json",importJson:"استيراد JSON",validateJson:"فحص JSON",downloadJson:"تنزيل JSON",packTip:"بعد تنزيل ملف mcpack، افتحه من تطبيق الملفات في Android واختر Minecraft عند ظهور نافذة فتح الملف. قد تختلف خطوات الاستيراد حسب إصدار Android.",settingsTitle:"الإعدادات",language:"لغة التطبيق",security:"قفل التطبيق",securityText:"يمكنك تغيير كلمة المرور. القفل محلي على هذا الجهاز ولا يُعد بديلاً عن حماية Android.",changePassword:"تغيير كلمة المرور",backup:"النسخ الاحتياطي",backupText:"احفظ أو استعد أوامرك المخصصة ومفضلاتك وإعداداتك.",exportBackup:"تصدير نسخة احتياطية",importBackup:"استيراد نسخة احتياطية",about:"حول السطوري",aboutText:"السطوري أداة مساعدة مستقلة لـ Minecraft Bedrock وليست تطبيقاً رسمياً من Mojang أو Microsoft. لا ترسل الأوامر مباشرة إلى عالم اللعبة؛ انسخ الأمر ثم الصقه داخل دردشة Minecraft.",reset:"إعادة ضبط بيانات التطبيق",footerText:"تُحفظ بياناتك محلياً في المتصفح على هذا الجهاز.",cancel:"إلغاء",save:"حفظ",copy:"نسخ",edit:"تعديل",delete:"حذف",removeFav:"إزالة من المفضلة",addFav:"إضافة للمفضلة",all:"الكل",basics:"أساسية",players:"اللاعبون",world:"العالم",entities:"الكيانات",admin:"الإدارة",creator:"المتقدمة",noResults:"لا توجد أوامر مطابقة.",custom:"مخصص",passwordTitle:"إنشاء كلمة مرور",passwordPrompt:"أنشئ كلمة مرور للدخول إلى السطوري",passwordAgain:"تأكيد كلمة المرور",passwordLogin:"أدخل كلمة المرور",passwordWrong:"كلمة المرور غير صحيحة",passwordMismatch:"كلمتا المرور غير متطابقتين",passwordShort:"استخدم 4 أحرف على الأقل",unlocked:"تم فتح التطبيق",saved:"تم الحفظ",copied:"تم نسخ الأمر",deleted:"تم الحذف",jsonValid:"ملف JSON سليم",jsonInvalid:"JSON غير صالح",manifestMade:"تم إنشاء manifest.json",packReady:"تم تجهيز ملف الحزمة",needName:"أدخل اسم الحزمة أولاً",confirmReset:"هل تريد حذف بيانات التطبيق المحلية؟",resetDone:"تمت إعادة ضبط البيانات",backupDone:"تم تصدير النسخة الاحتياطية",backupImported:"تم استيراد النسخة الاحتياطية",minecraftMissing:"إذا لم تفتح اللعبة، تأكد من تثبيت Minecraft Bedrock على جهازك.",cat:"التصنيف",commandName:"اسم الأمر بدون /",description:"الوصف",example:"مثال الأمر",saveCommand:"حفظ الأمر",addTitle:"إضافة أمر جديد",editTitle:"تعديل الأمر",passChangeTitle:"تغيير كلمة المرور",passNew:"كلمة المرور الجديدة",passOld:"كلمة المرور الحالية",passChanged:"تم تغيير كلمة المرور",official:"رسمي",noFavorites:"لم تضف أوامر إلى المفضلة بعد."},
+en:{launch:"Open Minecraft",heroTitle:"Your Bedrock world starts here",heroText:"A customizable command library, add-on pack editor, and useful tools in one place.",statCommands:"Commands in library",statCustom:"Custom commands",statFav:"Favorites",tabCommands:"Commands",tabFavorites:"Favorites",tabMods:"Add-on editor",tabSettings:"Settings",allCommands:"Bedrock command library",addCommand:"Add command",search:"Search commands or descriptions...",officialNote:"The catalog follows Microsoft's official command reference. Commands and syntax can vary by game version, permissions, and enabled experiments.",officialLink:"Official command reference ↗",favoritesTitle:"Your favorite commands",modTitle:"Add-on creator & editor",modNotice:"Create a basic Behavior or Resource pack as an mcpack file. Edit manifest.json, export the pack, then open it with Minecraft. This starter editor does not replace 3D model or texture editors.",newPack:"Create a new pack",packName:"Pack name",packType:"Pack type",packDesc:"Description",packVersion:"Version (example: 1.0.0)",generateManifest:"Generate manifest.json",exportMcpack:"Export .mcpack",manifestEditor:"manifest.json editor",importJson:"Import JSON",validateJson:"Validate JSON",downloadJson:"Download JSON",packTip:"After downloading the mcpack file, open it from Android's Files app and choose Minecraft. Import steps may vary by Android version.",settingsTitle:"Settings",language:"App language",security:"App lock",securityText:"You can change your password. This is a local app lock, not a replacement for Android device security.",changePassword:"Change password",backup:"Backup",backupText:"Export or restore your custom commands, favorites, and settings.",exportBackup:"Export backup",importBackup:"Import backup",about:"About ALSTOORI",aboutText:"ALSTOORI is an independent helper for Minecraft Bedrock, not an official Mojang or Microsoft app. It cannot send commands directly into a world; copy a command and paste it into Minecraft chat.",reset:"Reset app data",footerText:"Your data is stored locally in this browser on this device.",cancel:"Cancel",save:"Save",copy:"Copy",edit:"Edit",delete:"Delete",removeFav:"Unfavorite",addFav:"Favorite",all:"All",basics:"Basics",players:"Players",world:"World",entities:"Entities",admin:"Admin",creator:"Advanced",noResults:"No matching commands.",custom:"Custom",passwordTitle:"Create password",passwordPrompt:"Create a password to enter ALSTOORI",passwordAgain:"Confirm password",passwordLogin:"Enter your password",passwordWrong:"Incorrect password",passwordMismatch:"Passwords do not match",passwordShort:"Use at least 4 characters",unlocked:"App unlocked",saved:"Saved",copied:"Command copied",deleted:"Deleted",jsonValid:"Valid JSON",jsonInvalid:"Invalid JSON",manifestMade:"manifest.json generated",packReady:"Pack file prepared",needName:"Enter a pack name first",confirmReset:"Delete local app data?",resetDone:"App data reset",backupDone:"Backup exported",backupImported:"Backup imported",minecraftMissing:"If the game does not open, make sure Minecraft Bedrock is installed.",cat:"Category",commandName:"Command name without /",description:"Description",example:"Command example",saveCommand:"Save command",addTitle:"Add a command",editTitle:"Edit command",passChangeTitle:"Change password",passNew:"New password",passOld:"Current password",passChanged:"Password changed",official:"Official",noFavorites:"You have not favorited any commands yet."},
+zh:{launch:"打开 Minecraft",heroTitle:"从这里开启你的基岩版世界",heroText:"可自定义命令库、附加包编辑器和实用工具，一站管理。",statCommands:"命令总数",statCustom:"自定义命令",statFav:"收藏",tabCommands:"命令",tabFavorites:"收藏",tabMods:"附加包编辑器",tabSettings:"设置",allCommands:"基岩版命令库",addCommand:"添加命令",search:"搜索命令或描述...",officialNote:"命令目录参考 Microsoft 官方文档。命令和语法可能因游戏版本、权限和实验功能而异。",officialLink:"官方命令参考 ↗",favoritesTitle:"收藏的命令",modTitle:"附加包创建与编辑",modNotice:"创建基础行为包或资源包并导出为 mcpack。可编辑 manifest.json，然后使用 Minecraft 打开。此基础编辑器不能替代 3D 模型或纹理编辑器。",newPack:"创建新附加包",packName:"附加包名称",packType:"附加包类型",packDesc:"描述",packVersion:"版本（例如 1.0.0）",generateManifest:"生成 manifest.json",exportMcpack:"导出 .mcpack",manifestEditor:"manifest.json 编辑器",importJson:"导入 JSON",validateJson:"检查 JSON",downloadJson:"下载 JSON",packTip:"下载 mcpack 后，在 Android 文件管理器中打开并选择 Minecraft。导入步骤可能因 Android 版本而异。",settingsTitle:"设置",language:"应用语言",security:"应用锁",securityText:"你可以更改密码。此锁仅在本机有效，不能替代 Android 设备安全保护。",changePassword:"更改密码",backup:"备份",backupText:"导出或恢复自定义命令、收藏和设置。",exportBackup:"导出备份",importBackup:"导入备份",about:"关于 ALSTOORI",aboutText:"ALSTOORI 是独立的 Minecraft Bedrock 辅助工具，并非 Mojang 或 Microsoft 官方应用。它不能直接向游戏世界发送命令；请复制命令并粘贴到游戏聊天框。",reset:"重置应用数据",footerText:"数据保存在本设备的浏览器中。",cancel:"取消",save:"保存",copy:"复制",edit:"编辑",delete:"删除",removeFav:"取消收藏",addFav:"收藏",all:"全部",basics:"基础",players:"玩家",world:"世界",entities:"实体",admin:"管理",creator:"高级",noResults:"没有匹配的命令。",custom:"自定义",passwordTitle:"创建密码",passwordPrompt:"创建进入 ALSTOORI 的密码",passwordAgain:"确认密码",passwordLogin:"输入密码",passwordWrong:"密码错误",passwordMismatch:"两次密码不一致",passwordShort:"至少输入 4 个字符",unlocked:"应用已解锁",saved:"已保存",copied:"命令已复制",deleted:"已删除",jsonValid:"JSON 有效",jsonInvalid:"JSON 无效",manifestMade:"已生成 manifest.json",packReady:"已生成附加包文件",needName:"请先输入附加包名称",confirmReset:"确定删除本地应用数据吗？",resetDone:"应用数据已重置",backupDone:"备份已导出",backupImported:"备份已导入",minecraftMissing:"如果游戏未打开，请确认已安装 Minecraft Bedrock。",cat:"分类",commandName:"命令名称（不含 /）",description:"描述",example:"命令示例",saveCommand:"保存命令",addTitle:"添加新命令",editTitle:"编辑命令",passChangeTitle:"更改密码",passNew:"新密码",passOld:"当前密码",passChanged:"密码已更改",official:"官方",noFavorites:"你还没有收藏命令。"},
+ja:{launch:"Minecraftを開く",heroTitle:"Bedrockの世界はここから",heroText:"カスタマイズ可能なコマンド集、アドオン編集ツールを一か所に。",statCommands:"コマンド数",statCustom:"カスタムコマンド",statFav:"お気に入り",tabCommands:"コマンド",tabFavorites:"お気に入り",tabMods:"アドオン編集",tabSettings:"設定",allCommands:"Bedrockコマンドライブラリ",addCommand:"コマンド追加",search:"コマンドや説明を検索...",officialNote:"一覧はMicrosoft公式リファレンスに基づいています。コマンドや構文はゲームのバージョン、権限、実験機能により異なる場合があります。",officialLink:"公式コマンドリファレンス ↗",favoritesTitle:"お気に入りコマンド",modTitle:"アドオン作成・編集",modNotice:"基本的なビヘイビアパックまたはリソースパックをmcpack形式で作成できます。manifest.jsonを編集してMinecraftで開けます。この簡易エディターは3Dモデルやテクスチャ編集の代わりにはなりません。",newPack:"新しいパックを作成",packName:"パック名",packType:"パックの種類",packDesc:"説明",packVersion:"バージョン（例: 1.0.0）",generateManifest:"manifest.jsonを生成",exportMcpack:".mcpackを書き出す",manifestEditor:"manifest.jsonエディター",importJson:"JSONを読み込む",validateJson:"JSONを検証",downloadJson:"JSONをダウンロード",packTip:"mcpackをダウンロードしたら、Androidのファイルアプリから開き、Minecraftを選択してください。手順はAndroidのバージョンによって異なる場合があります。",settingsTitle:"設定",language:"アプリの言語",security:"アプリロック",securityText:"パスワードを変更できます。このロックは端末内のみで、Androidの端末保護の代わりにはなりません。",changePassword:"パスワード変更",backup:"バックアップ",backupText:"カスタムコマンド、お気に入り、設定を保存・復元します。",exportBackup:"バックアップを書き出す",importBackup:"バックアップを読み込む",about:"ALSTOORIについて",aboutText:"ALSTOORIはMinecraft Bedrock向けの独立した補助ツールで、MojangやMicrosoftの公式アプリではありません。ゲーム内へ直接コマンドを送信できません。コピーしてゲーム内チャットに貼り付けてください。",reset:"アプリデータをリセット",footerText:"データはこの端末のブラウザー内に保存されます。",cancel:"キャンセル",save:"保存",copy:"コピー",edit:"編集",delete:"削除",removeFav:"お気に入り解除",addFav:"お気に入り",all:"すべて",basics:"基本",players:"プレイヤー",world:"ワールド",entities:"エンティティ",admin:"管理",creator:"高度",noResults:"一致するコマンドはありません。",custom:"カスタム",passwordTitle:"パスワード作成",passwordPrompt:"ALSTOORIに入るパスワードを作成",passwordAgain:"パスワード確認",passwordLogin:"パスワードを入力",passwordWrong:"パスワードが違います",passwordMismatch:"パスワードが一致しません",passwordShort:"4文字以上で入力してください",unlocked:"ロックを解除しました",saved:"保存しました",copied:"コマンドをコピーしました",deleted:"削除しました",jsonValid:"有効なJSONです",jsonInvalid:"JSONが無効です",manifestMade:"manifest.jsonを生成しました",packReady:"パックファイルを作成しました",needName:"先にパック名を入力してください",confirmReset:"ローカルデータを削除しますか？",resetDone:"データをリセットしました",backupDone:"バックアップを書き出しました",backupImported:"バックアップを読み込みました",minecraftMissing:"ゲームが開かない場合はMinecraft Bedrockのインストールを確認してください。",cat:"カテゴリ",commandName:"コマンド名（/なし）",description:"説明",example:"コマンド例",saveCommand:"コマンドを保存",addTitle:"コマンドを追加",editTitle:"コマンドを編集",passChangeTitle:"パスワード変更",passNew:"新しいパスワード",passOld:"現在のパスワード",passChanged:"パスワードを変更しました",official:"公式",noFavorites:"お気に入りはまだありません。"}
+};
+const CAT_KEYS=["all","basics","players","world","entities","admin","creator"];
+const $=s=>document.querySelector(s);
+let lang=localStorage.getItem("al_lang")||"ar", tab="commands", category="all", editingId=null;
+let custom=JSON.parse(localStorage.getItem("al_custom")||"[]");
+let hidden=JSON.parse(localStorage.getItem("al_hidden")||"[]");
+let favorites=JSON.parse(localStorage.getItem("al_favs")||"[]");
+const t=k=>(I18N[lang]||I18N.ar)[k]||I18N.ar[k]||k;
+function save(){localStorage.setItem("al_custom",JSON.stringify(custom));localStorage.setItem("al_hidden",JSON.stringify(hidden));localStorage.setItem("al_favs",JSON.stringify(favorites));}
+function allCommands(){return COMMANDS.filter(c=>!hidden.includes(c[0])).map(c=>({id:c[0],name:c[0],cat:c[1],desc:c[2],example:c[3],custom:false})).concat(custom)}
+function toast(msg){let el=$("#toast");el.textContent=msg;el.style.display="block";clearTimeout(window._toastTimer);window._toastTimer=setTimeout(()=>el.style.display="none",2200)}
+function applyLanguage(){document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";document.querySelectorAll("[data-i]").forEach(el=>el.textContent=t(el.dataset.i));document.querySelectorAll("[data-ph]").forEach(el=>el.placeholder=t(el.dataset.ph));$("#language").value=lang;render();}
+function setTab(name){tab=name;document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));["commands","favorites","mods","settings"].forEach(p=>$("#page-"+p).hidden=p!==name);render();}
+function renderFilters(){let host=$("#filters");host.innerHTML="";CAT_KEYS.forEach(c=>{let b=document.createElement("button");b.className="chip"+(category===c?" active":"");b.textContent=t(c);b.onclick=()=>{category=c;render()};host.append(b)})}
+function makeCard(c){let el=document.createElement("article");el.className="cmd";let isFav=favorites.includes(c.id);el.innerHTML=`<div class="cmdtop"><div class="cmdname">/${esc(c.name)}</div><span class="tag">${c.custom? t("custom"):t("official")}</span></div><p class="desc">${esc(c.desc||"")}</p><div class="code">${esc(c.example||("/"+c.name))}</div><div class="cmdactions"><button class="btn small primary copy">⧉ ${t("copy")}</button><button class="btn small fav">${isFav?"★":"☆"} ${isFav?t("removeFav"):t("addFav")}</button>${c.custom?`<button class="btn small edit">${t("edit")}</button><button class="btn small danger del">${t("delete")}</button>`:""}</div>`;
+el.querySelector(".copy").onclick=()=>copyText(c.example||("/"+c.name));
+el.querySelector(".fav").onclick=()=>{favorites=isFav?favorites.filter(x=>x!==c.id):[...favorites,c.id];save();render()};
+if(c.custom){el.querySelector(".edit").onclick=()=>openCommandModal(c);el.querySelector(".del").onclick=()=>{if(confirm(t("delete")+"?")){custom=custom.filter(x=>x.id!==c.id);save();render();toast(t("deleted"))}}}
+return el}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function renderCards(list,host){host.innerHTML="";if(!list.length){host.innerHTML=`<div class="empty">${tab==="favorites"?t("noFavorites"):t("noResults")}</div>`;return}list.forEach(c=>host.append(makeCard(c)))}
+function render(){renderFilters();let all=allCommands();$("#countCommands").textContent=all.length;$("#countCustom").textContent=custom.length;$("#countFav").textContent=favorites.length;
+let q=$("#search").value.trim().toLowerCase();let list=all.filter(c=>(category==="all"||c.cat===category)&&(!q||[c.name,c.desc,c.example].join(" ").toLowerCase().includes(q)));renderCards(list,$("#commandList"));let fav=all.filter(c=>favorites.includes(c.id));renderCards(fav,$("#favoriteList"))}
+async function copyText(text){try{await navigator.clipboard.writeText(text)}catch(e){let ta=document.createElement("textarea");ta.value=text;document.body.append(ta);ta.select();document.execCommand("copy");ta.remove()}toast(t("copied"))}
+function openModal(title,body,saveFn){$("#modalTitle").textContent=title;$("#modalBody").innerHTML=body;$("#modalBack").classList.add("show");$("#modalSave").onclick=()=>{if(saveFn())$("#modalBack").classList.remove("show")}}
+function closeModal(){$("#modalBack").classList.remove("show")}
+function openCommandModal(c=null){editingId=c?.id||null;let cats=CAT_KEYS.slice(1).map(k=>`<option value="${k}" ${c?.cat===k?"selected":""}>${t(k)}</option>`).join("");openModal(c?t("editTitle"):t("addTitle"),`
+<div class="formrow"><label>${t("commandName")}</label><input class="field" id="cName" value="${esc(c?.name||"")}" placeholder="mycommand"></div>
+<div class="formrow"><label>${t("cat")}</label><select class="field" id="cCat">${cats}</select></div>
+<div class="formrow"><label>${t("description")}</label><input class="field" id="cDesc" value="${esc(c?.desc||"")}"></div>
+<div class="formrow"><label>${t("example")}</label><input class="field" id="cExample" value="${esc(c?.example||"/mycommand")}"></div>`,()=>{
+let name=$("#cName").value.trim().replace(/^\//,"");if(!/^[a-zA-Z0-9_]+$/.test(name)){toast("Use command letters, numbers, or _");return false}
+let obj={id:editingId||("custom_"+Date.now()),name,cat:$("#cCat").value,desc:$("#cDesc").value,example:$("#cExample").value.trim()||"/"+name,custom:true};
+if(editingId)custom=custom.map(x=>x.id===editingId?obj:x);else custom.push(obj);save();render();toast(t("saved"));return true})}
+function launchMinecraft(){if(window.Alstoori&&window.Alstoori.openMinecraft){window.Alstoori.openMinecraft();return}let intent="intent://#Intent;scheme=minecraft;package=com.mojang.minecraftpe;end";window.location.href=intent;setTimeout(()=>toast(t("minecraftMissing")),1800)}
+$("#launchTop").onclick=launchMinecraft;$("#launchHero").onclick=launchMinecraft;
+$("#addCmd").onclick=()=>openCommandModal();$("#search").addEventListener("input",render);
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+$("#modalCancel").onclick=closeModal;$("#modalBack").addEventListener("click",e=>{if(e.target===$("#modalBack"))closeModal()});
+$("#language").onchange=e=>{lang=e.target.value;localStorage.setItem("al_lang",lang);applyLanguage()};
+$("#langQuick").onclick=()=>setTab("settings");
+$("#changePass").onclick=()=>openModal(t("passChangeTitle"),`<div class="formrow"><label>${t("passOld")}</label><input class="field" id="oldPass" type="password"></div><div class="formrow"><label>${t("passNew")}</label><input class="field" id="newPass" type="password"></div>`,()=>{let current=localStorage.getItem("al_pass")||"";if($("#oldPass").value!==current){toast(t("passwordWrong"));return false}let p=$("#newPass").value;if(p.length<4){toast(t("passwordShort"));return false}localStorage.setItem("al_pass",p);toast(t("passChanged"));return true});
+$("#resetApp").onclick=()=>{if(confirm(t("confirmReset"))){["al_custom","al_hidden","al_favs","al_pass","al_lang"].forEach(k=>localStorage.removeItem(k));location.reload()}};
+$("#exportBackup").onclick=()=>downloadFile("alstoori-backup.json",JSON.stringify({custom,hidden,favorites,lang},null,2),"application/json");
+$("#backupFile").onchange=async e=>{try{let data=JSON.parse(await e.target.files[0].text());custom=data.custom||[];hidden=data.hidden||[];favorites=data.favorites||[];lang=data.lang||"ar";save();localStorage.setItem("al_lang",lang);applyLanguage();toast(t("backupImported"))}catch(err){toast(t("jsonInvalid"))}};
+function saveBlob(name,blob){if(window.Alstoori&&window.Alstoori.saveFile){let reader=new FileReader();reader.onload=()=>{let b64=String(reader.result).split(",")[1]||"";window.Alstoori.saveFile(name,b64,blob.type||"application/octet-stream")};reader.readAsDataURL(blob);return}let url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function downloadFile(name,data,type){saveBlob(name,new Blob([data],{type}))}
+function uuid(){return crypto.randomUUID?crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{let r=Math.random()*16|0;return(c==="x"?r:(r&3|8)).toString(16)})}
+function makeManifest(){let version=$("#packVersion").value.trim().split(".").map(x=>parseInt(x,10));if(version.length!==3||version.some(x=>!Number.isInteger(x)||x<0)){toast("Version must look like 1.0.0");return null}let type=$("#packType").value;return {format_version:2,header:{name:$("#packName").value.trim(),description:$("#packDesc").value.trim(),uuid:uuid(),version,min_engine_version:[1,20,0]},modules:[{type:type==="data"?"data":"resources",uuid:uuid(),version}]}}
+$("#makeManifest").onclick=()=>{if(!$("#packName").value.trim()){toast(t("needName"));return}$("#manifestEditor").value=JSON.stringify(makeManifest(),null,2);toast(t("manifestMade"))};
+$("#validateManifest").onclick=()=>{try{JSON.parse($("#manifestEditor").value);toast(t("jsonValid"))}catch(e){toast(t("jsonInvalid")+": "+e.message)}};
+$("#downloadJson").onclick=()=>{try{let data=JSON.parse($("#manifestEditor").value);downloadFile("manifest.json",JSON.stringify(data,null,2),"application/json")}catch(e){toast(t("jsonInvalid"))}};
+$("#manifestFile").onchange=async e=>{try{$("#manifestEditor").value=JSON.stringify(JSON.parse(await e.target.files[0].text()),null,2);toast(t("saved"))}catch(err){toast(t("jsonInvalid"))}};
+function crc32(bytes){let c=~0;for(let b of bytes){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}return(~c)>>>0}
+function zipStore(files){let enc=new TextEncoder(),locals=[],centrals=[],offset=0;for(let [name,content] of Object.entries(files)){let nb=enc.encode(name),data=enc.encode(content),crc=crc32(data),lh=new Uint8Array(30+nb.length),lv=new DataView(lh.buffer);lv.setUint32(0,0x04034b50,true);lv.setUint16(4,20,true);lv.setUint16(6,0x800,true);lv.setUint16(8,0,true);lv.setUint32(14,crc,true);lv.setUint32(18,data.length,true);lv.setUint32(22,data.length,true);lv.setUint16(26,nb.length,true);lh.set(nb,30);locals.push(lh,data);
+let ch=new Uint8Array(46+nb.length),cv=new DataView(ch.buffer);cv.setUint32(0,0x02014b50,true);cv.setUint16(4,20,true);cv.setUint16(6,20,true);cv.setUint16(8,0x800,true);cv.setUint16(10,0,true);cv.setUint32(16,crc,true);cv.setUint32(20,data.length,true);cv.setUint32(24,data.length,true);cv.setUint16(28,nb.length,true);cv.setUint32(42,offset,true);ch.set(nb,46);centrals.push(ch);offset+=lh.length+data.length}
+let centralSize=centrals.reduce((a,b)=>a+b.length,0),end=new Uint8Array(22),ev=new DataView(end.buffer);ev.setUint32(0,0x06054b50,true);ev.setUint16(8,centrals.length,true);ev.setUint16(10,centrals.length,true);ev.setUint32(12,centralSize,true);ev.setUint32(16,offset,true);return new Blob([...locals,...centrals,end],{type:"application/zip"})}
+$("#downloadPack").onclick=()=>{try{let manifest=JSON.parse($("#manifestEditor").value);if(!manifest.header||!manifest.modules)throw Error("Missing header/modules");let files={"manifest.json":JSON.stringify(manifest,null,2),"README.txt":"Created with ALSTOORI. Open this .mcpack file with Minecraft Bedrock to import it."};if(manifest.modules[0].type==="data"){files["functions/hello.mcfunction"]="say Hello from ALSTOORI!\\n";}else{files["texts/languages.json"]='["en_US"]';files["texts/en_US.lang"]="pack.name="+(manifest.header.name||"ALSTOORI")+"\\npack.description="+(manifest.header.description||"Created with ALSTOORI")+"\\n"}let blob=zipStore(files);saveBlob((manifest.header.name||"alstoori-pack").replace(/[^a-z0-9_-]/gi,"_")+".mcpack",blob);toast(t("packReady"))}catch(e){toast(t("jsonInvalid")+": "+e.message)}};
+async function initLock(){let pass=localStorage.getItem("al_pass");let title=pass?t("passwordLogin"):t("passwordTitle");let body=pass?`<p class="muted">${t("passwordLogin")}</p><input class="field" id="loginPass" type="password" autocomplete="current-password">`:`<p class="muted">${t("passwordPrompt")}</p><input class="field" id="firstPass" type="password" autocomplete="new-password" placeholder="${t("passwordPrompt")}"><div style="height:9px"></div><input class="field" id="confirmPass" type="password" placeholder="${t("passwordAgain")}">`;
+$("#modalTitle").textContent=title;$("#modalBody").innerHTML=body;$("#modalCancel").style.display="none";$("#modalSave").textContent=t("save");$("#modalBack").classList.add("show");$("#modalSave").onclick=()=>{if(pass){if($("#loginPass").value!==pass){toast(t("passwordWrong"));return}$("#modalBack").classList.remove("show");$("#modalCancel").style.display="";toast(t("unlocked"))}else{let p=$("#firstPass").value;if(p.length<4){toast(t("passwordShort"));return}if(p!==$("#confirmPass").value){toast(t("passwordMismatch"));return}localStorage.setItem("al_pass",p);$("#modalBack").classList.remove("show");$("#modalCancel").style.display="";toast(t("saved"))}}}
+applyLanguage();if(!$("#manifestEditor").value)$("#manifestEditor").value=JSON.stringify({format_version:2,header:{name:"ALSTOORI Add-on",description:"Created with ALSTOORI",uuid:"00000000-0000-4000-8000-000000000001",version:[1,0,0],min_engine_version:[1,20,0]},modules:[{type:"data",uuid:"00000000-0000-4000-8000-000000000002",version:[1,0,0]}]},null,2);initLock();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body>
+</html>
